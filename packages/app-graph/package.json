@@ -1,0 +1,31 @@
+{
+  "name": "app-graph",
+  "packageManager": "yarn@3.1.1",
+  "scripts": {
+    "build": "parcel build index.html"
+  },
+  "dependencies": {
+    "cytoscape": "3.2.20",
+    "cytoscape-dagre": "2.2.2",
+    "eclaireur-core": "workspace:^",
+    "eclaireur-plugin-swc": "workspace:^",
+    "polka": "^0.5.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "sirv": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/cytoscape": "^3.19.2",
+    "@types/cytoscape-dagre": "^2.3.0",
+    "@types/react": "^17.0.38",
+    "@types/react-dom": "^17.0.11",
+    "@vitejs/plugin-react": "^1.1.4",
+    "autoprefixer": "^10.4.2",
+    "parcel": "^2.1.1",
+    "postcss": "^8.4.5",
+    "tailwindcss": "^3.0.12",
+    "vite": "^2.7.10",
+    "vite-plugin-mix": "^0.3.1"
+  },
+  "prettier": "eclaireur-internal-config/prettier.json"
+}

@@ -1,0 +1,12 @@
+{
+  "extends": "eclaireur-internal-tsconfig/nodejs.json",
+  "compilerOptions": {
+    "composite": true,
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "outDir": "./dist",
+    "tsBuildInfoFile": "dist/.tsbuildinfo"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "eclaireur-cli",
+  "packageManager": "yarn@3.1.1",
+  "scripts": {
+    "build": "rollup -c rollup.config.js"
+  },
+  "dependencies": {
+    "eclaireur-core": "workspace:^"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^8.3.0",
+    "eclaireur-internal-config": "workspace:*",
+    "eclaireur-internal-tsconfig": "workspace:*",
+    "rollup": "^2.63.0",
+    "rollup-plugin-node-externals": "^3.1.2",
+    "typescript": "4.5.4"
+  },
+  "prettier": "eclaireur-internal-config/prettier.json"
+}

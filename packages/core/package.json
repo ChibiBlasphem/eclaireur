@@ -1,0 +1,28 @@
+{
+  "name": "eclaireur-core",
+  "version": "0.0.0",
+  "packageManager": "yarn@3.1.1",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "rollup -c rollup.config.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "glob-to-regexp": "^0.4.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^8.3.0",
+    "@swc-node/jest": "^1.4.3",
+    "@types/glob-to-regexp": "^0.4.1",
+    "@types/jest": "^27.4.0",
+    "@types/memory-fs": "^0.3.3",
+    "eclaireur-internal-config": "workspace:*",
+    "eclaireur-internal-tsconfig": "workspace:*",
+    "jest": "^27.4.7",
+    "memory-fs": "^0.5.0",
+    "rollup": "^2.63.0",
+    "rollup-plugin-node-externals": "^3.1.2",
+    "typescript": "^4.5.4"
+  },
+  "prettier": "eclaireur-internal-config/prettier.json"
+}

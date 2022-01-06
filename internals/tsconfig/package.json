@@ -1,0 +1,16 @@
+{
+  "name": "eclaireur-internal-tsconfig",
+  "version": "0.0.0",
+  "packageManager": "yarn@3.1.1",
+  "private": true,
+  "main": "index.js",
+  "files": [
+    "base.json",
+    "nextjs.json",
+    "nodejs.json",
+    "react-library.json"
+  ],
+  "dependencies": {
+    "@types/node": "^17.0.8"
+  }
+}
