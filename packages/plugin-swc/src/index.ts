@@ -57,7 +57,7 @@ export function swcPlugin({
 
   return {
     name: 'swc-plugin',
-    checkValidity: (fileInformations) => ['.js', '.jsx', '.ts', '. tsx'].includes(fileInformations.extension),
+    checkValidity: (fileInformations) => ['.js', '.jsx', '.ts', '.tsx'].includes(fileInformations.extension),
     extractImports: async ({ dirname, contents }, _forward, { fileSystem }) => {
       const ast = await parse(contents, { syntax: 'typescript', tsx: true, decorators: true });
       const resolver = ResolverFactory.createResolver({

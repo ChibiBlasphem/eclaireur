@@ -1,6 +1,6 @@
 import nodePath from 'node:path';
 import type { UserConfig } from 'eclaireur-core';
-import { generateDependencyMap } from 'eclaireur-core';
+import { generateDependencyMap, renderers } from 'eclaireur-core';
 
 export async function start() {
   const configPath = nodePath.resolve(process.cwd(), 'eclaireur.config.js');
@@ -13,5 +13,5 @@ export async function start() {
     abstractFolders,
   });
 
-  console.log(dependencyMap);
+  console.log(renderers.dot(dependencyMap));
 }

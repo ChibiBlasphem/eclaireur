@@ -2323,6 +2323,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/graphviz@npm:^0.0.34":
+  version: 0.0.34
+  resolution: "@types/graphviz@npm:0.0.34"
+  dependencies:
+    "@types/node": "*"
+  checksum: 12e65016a711eee852c990d805b015b7301f6644629952f295a6420fe31ed98e20c527b5d7f6fc32fd888483014998f4559bcbbfbfb9eba7634a8cad49b792b5
+  languageName: node
+  linkType: hard
+
 "@types/http-proxy@npm:^1.17.5":
   version: 1.17.8
   resolution: "@types/http-proxy@npm:1.17.8"
@@ -4601,11 +4610,13 @@ __metadata:
     "@rollup/plugin-typescript": ^8.3.0
     "@swc-node/jest": ^1.4.3
     "@types/glob-to-regexp": ^0.4.1
+    "@types/graphviz": ^0.0.34
     "@types/jest": ^27.4.0
     "@types/memory-fs": ^0.3.3
     eclaireur-internal-config: "workspace:*"
     eclaireur-internal-tsconfig: "workspace:*"
     glob-to-regexp: ^0.4.1
+    graphviz: ^0.0.9
     jest: ^27.4.7
     memory-fs: ^0.5.0
     rollup: ^2.63.0
@@ -6113,6 +6124,15 @@ __metadata:
   dependencies:
     lodash: ^4.17.15
   checksum: 1e0db4dea1c8187d59103d5582ecf32008845ebe2103959a51d22cb6dae495e81fb9263e22c922bca3aaecb56064a45cd53424e15a4626cfb5a0c52d0aff61a8
+  languageName: node
+  linkType: hard
+
+"graphviz@npm:^0.0.9":
+  version: 0.0.9
+  resolution: "graphviz@npm:0.0.9"
+  dependencies:
+    temp: ~0.4.0
+  checksum: fb414f89763d568646f2d899f9a2baa19e1cdf1b97db831f64f2b3f7322609ca1e4e43bcb3d2e3bfc992b9e0f657803559d7a98e289d5aa6dc549d578939d599
   languageName: node
   linkType: hard
 
@@ -11208,6 +11228,13 @@ __metadata:
     safe-buffer: ^5.2.1
     yallist: ^3.1.1
   checksum: 423c8259b17f8f612cef9c96805d65f90ba9a28e19be582cd9d0fcb217038219f29b7547198e8fd617da5f436376d6a74b99827acd1238d2f49cf62330f9664e
+  languageName: node
+  linkType: hard
+
+"temp@npm:~0.4.0":
+  version: 0.4.0
+  resolution: "temp@npm:0.4.0"
+  checksum: 8b83f98833b7f6cd03a1f523d17f8b06fe687cbdfc5654ae41edacdf640e71f1057c3cf2534ac44e265834c1af6270d9a0b9baeee6b86ccb2ef379e43dbc0d0a
   languageName: node
   linkType: hard
 

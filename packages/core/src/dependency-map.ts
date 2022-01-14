@@ -1,6 +1,6 @@
 import nodeFs from 'node:fs';
 import nodePath from 'node:path';
-import type { FilepathPattern, UserConfig } from './types/core';
+import type { UserConfig } from './types/core';
 import { ErrorMessages, EclaireurError } from './utils/error';
 import { createPatternToRegexp, matchPattern, matchPatternInHashmap } from './utils/match-pattern';
 
@@ -11,7 +11,12 @@ export interface GenerateDependencyMapOptions {
   abstractFolders?: UserConfig['abstractFolders'];
 }
 
-export type DependencyMap = Map<string, Set<string>>;
+export interface DependencyDetail {
+  fullpath: string;
+  isFolder: boolean;
+  dependencies: Set<string>;
+}
+export type DependencyMap = Map<string, DependencyDetail>;
 
 function shouldIncludeFile(filepath: string, include: RegExp[] | null, exclude: RegExp[]) {
   return (!include || matchPattern(filepath, include)) && !matchPattern(filepath, exclude);
@@ -42,19 +47,25 @@ export async function generateDependencyMap(
 
   async function _buildDependencyMap(
     filepath: string,
-    dependencies: DependencyMap,
+    dependencyMap: DependencyMap,
     recursionState: { depth: number; matched: Set<string> }
   ): Promise<void> {
-    const filepathKey = matchPatternInHashmap(filepath, abstractedFoldersRegexpHashmap) ?? filepath;
+    const matchedPattern = matchPatternInHashmap(filepath, abstractedFoldersRegexpHashmap);
+    const filepathKey = matchedPattern ?? filepath;
+    const relativeFilepathKey = nodePath.relative(root, filepathKey);
 
     // The file can be imported mutliple times but we only want to check its dependencies only once
     if (recursionState.matched.has(filepath)) {
       return;
     }
 
-    const fileDependencies = dependencies.get(filepathKey) ?? new Set<string>();
+    const dependencyDetails = dependencyMap.get(relativeFilepathKey) ?? {
+      fullpath: filepathKey,
+      isFolder: !!matchedPattern,
+      dependencies: new Set<string>(),
+    };
     recursionState.matched.add(filepath);
-    dependencies.set(filepathKey, fileDependencies);
+    dependencyMap.set(relativeFilepathKey, dependencyDetails);
 
     // If we reached the maxDepth limit then bail out here
     if (maxDepth && recursionState.depth >= maxDepth) {
@@ -79,13 +90,13 @@ export async function generateDependencyMap(
     let promises: Promise<void>[] = [];
     for (const importPath of imports) {
       if (shouldIncludeFile(importPath, includedFoldersRegexp, excludedFoldersRegexp)) {
-        const abstractedImportPath = matchPatternInHashmap(importPath, abstractedFoldersRegexpHashmap) ?? importPath;
-        if (filepathKey !== abstractedImportPath) {
-          fileDependencies.add(abstractedImportPath);
+        const importPathKey = matchPatternInHashmap(importPath, abstractedFoldersRegexpHashmap) ?? importPath;
+        if (filepathKey !== importPathKey) {
+          dependencyDetails.dependencies.add(nodePath.relative(root, importPathKey));
         }
 
         promises.push(
-          _buildDependencyMap(importPath, dependencies, {
+          _buildDependencyMap(importPath, dependencyMap, {
             depth: recursionState.depth + 1,
             matched: recursionState.matched,
           })
@@ -96,7 +107,7 @@ export async function generateDependencyMap(
     await Promise.all(promises);
   }
 
-  const dependencyRecord = new Map<string, Set<string>>();
-  await _buildDependencyMap(entryPoint, dependencyRecord, { depth: 0, matched: new Set() });
-  return dependencyRecord;
+  const dependencyMap = new Map<string, DependencyDetail>();
+  await _buildDependencyMap(entryPoint, dependencyMap, { depth: 0, matched: new Set() });
+  return dependencyMap;
 }

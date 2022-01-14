@@ -48,11 +48,17 @@ describe('generateDependencyMap', () => {
       generateDependencyMap('/src/main.js', '/', { fileSystem: mockFileSystem, plugins: [mockPlugin] })
     ).resolves.toEqual(
       new Map([
-        ['/src/main.js', new Set(['/src/app/foo.js', '/src/app/bar.js'])],
-        ['/src/app/foo.js', new Set(['/src/app/baz.js'])],
-        ['/src/app/bar.js', new Set(['/src/app/baz.js'])],
-        ['/src/app/baz.js', new Set(['/src/external/file.js'])],
-        ['/src/external/file.js', new Set()],
+        [
+          'src/main.js',
+          { fullpath: '/src/main.js', isFolder: false, dependencies: new Set(['src/app/foo.js', 'src/app/bar.js']) },
+        ],
+        ['src/app/foo.js', { fullpath: '/src/app/foo.js', isFolder: false, dependencies: new Set(['src/app/baz.js']) }],
+        ['src/app/bar.js', { fullpath: '/src/app/bar.js', isFolder: false, dependencies: new Set(['src/app/baz.js']) }],
+        [
+          'src/app/baz.js',
+          { fullpath: '/src/app/baz.js', isFolder: false, dependencies: new Set(['src/external/file.js']) },
+        ],
+        ['src/external/file.js', { fullpath: '/src/external/file.js', isFolder: false, dependencies: new Set() }],
       ])
     );
 
@@ -60,9 +66,12 @@ describe('generateDependencyMap', () => {
       generateDependencyMap('/src/app/foo.js', '/', { fileSystem: mockFileSystem, plugins: [mockPlugin] })
     ).resolves.toEqual(
       new Map([
-        ['/src/app/foo.js', new Set(['/src/app/baz.js'])],
-        ['/src/app/baz.js', new Set(['/src/external/file.js'])],
-        ['/src/external/file.js', new Set()],
+        ['src/app/foo.js', { fullpath: '/src/app/foo.js', isFolder: false, dependencies: new Set(['src/app/baz.js']) }],
+        [
+          'src/app/baz.js',
+          { fullpath: '/src/app/baz.js', isFolder: false, dependencies: new Set(['src/external/file.js']) },
+        ],
+        ['src/external/file.js', { fullpath: '/src/external/file.js', isFolder: false, dependencies: new Set() }],
       ])
     );
   });
@@ -76,9 +85,12 @@ describe('generateDependencyMap', () => {
       })
     ).resolves.toEqual(
       new Map([
-        ['/src/main.js', new Set(['/src/app/foo.js', '/src/app/bar.js'])],
-        ['/src/app/foo.js', new Set([])],
-        ['/src/app/bar.js', new Set([])],
+        [
+          'src/main.js',
+          { fullpath: '/src/main.js', isFolder: false, dependencies: new Set(['src/app/foo.js', 'src/app/bar.js']) },
+        ],
+        ['src/app/foo.js', { fullpath: '/src/app/foo.js', isFolder: false, dependencies: new Set([]) }],
+        ['src/app/bar.js', { fullpath: '/src/app/bar.js', isFolder: false, dependencies: new Set([]) }],
       ])
     );
   });
@@ -94,8 +106,8 @@ describe('generateDependencyMap', () => {
       })
     ).resolves.toEqual(
       new Map([
-        ['/src/app/foo.js', new Set(['/src/app/baz.js'])],
-        ['/src/app/baz.js', new Set()],
+        ['src/app/foo.js', { fullpath: '/src/app/foo.js', isFolder: false, dependencies: new Set(['src/app/baz.js']) }],
+        ['src/app/baz.js', { fullpath: '/src/app/baz.js', isFolder: false, dependencies: new Set() }],
       ])
     );
   });
@@ -112,10 +124,13 @@ describe('generateDependencyMap', () => {
       })
     ).resolves.toEqual(
       new Map([
-        ['/src/main.js', new Set(['/src/app/foo.js', '/src/app/bar.js'])],
-        ['/src/app/foo.js', new Set(['/src/app/baz.js'])],
-        ['/src/app/bar.js', new Set(['/src/app/baz.js'])],
-        ['/src/app/baz.js', new Set()],
+        [
+          'src/main.js',
+          { fullpath: '/src/main.js', isFolder: false, dependencies: new Set(['src/app/foo.js', 'src/app/bar.js']) },
+        ],
+        ['src/app/foo.js', { fullpath: '/src/app/foo.js', isFolder: false, dependencies: new Set(['src/app/baz.js']) }],
+        ['src/app/bar.js', { fullpath: '/src/app/bar.js', isFolder: false, dependencies: new Set(['src/app/baz.js']) }],
+        ['src/app/baz.js', { fullpath: '/src/app/baz.js', isFolder: false, dependencies: new Set() }],
       ])
     );
 
@@ -128,7 +143,9 @@ describe('generateDependencyMap', () => {
           exclude: [/app/],
         },
       })
-    ).resolves.toEqual(new Map([['/src/main.js', new Set()]]));
+    ).resolves.toEqual(
+      new Map([['src/main.js', { fullpath: '/src/main.js', isFolder: false, dependencies: new Set() }]])
+    );
   });
 
   it('Should throw an error if the entry point is not in the include', async () => {
@@ -152,9 +169,9 @@ describe('generateDependencyMap', () => {
       })
     ).resolves.toEqual(
       new Map([
-        ['/src/main.js', new Set(['/src/app'])],
-        ['/src/app', new Set(['/src/external/file.js'])],
-        ['/src/external/file.js', new Set()],
+        ['src/main.js', { fullpath: '/src/main.js', isFolder: false, dependencies: new Set(['src/app']) }],
+        ['src/app', { fullpath: '/src/app', isFolder: true, dependencies: new Set(['src/external/file.js']) }],
+        ['src/external/file.js', { fullpath: '/src/external/file.js', isFolder: false, dependencies: new Set() }],
       ])
     );
   });
