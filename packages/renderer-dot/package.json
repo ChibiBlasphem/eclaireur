@@ -1,0 +1,24 @@
+{
+  "name": "eclaireur-renderer-dot",
+  "version": "0.0.0",
+  "packageManager": "yarn@3.1.1",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "rollup -c rollup.config.js"
+  },
+  "dependencies": {
+    "graphviz": "^0.0.9"
+  },
+  "devDependencies": {
+    "@types/graphviz": "^0.0.34",
+    "eclaireur-core": "^0.0.0",
+    "eclaireur-internal-config": "workspace:^",
+    "eclaireur-internal-rollup-config": "workspace:^",
+    "eclaireur-internal-tsconfig": "workspace:^",
+    "rollup": "^2.63.0"
+  },
+  "peerDependencies": {
+    "eclaireur-core": "^0.0.0"
+  },
+  "prettier": "eclaireur-internal-config/prettier.json"
+}

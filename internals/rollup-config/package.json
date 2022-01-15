@@ -1,0 +1,15 @@
+{
+  "name": "eclaireur-internal-rollup-config",
+  "packageManager": "yarn@3.1.1",
+  "dependencies": {
+    "@rollup/plugin-typescript": "^8.3.0",
+    "rollup-plugin-node-externals": "^3.1.2"
+  },
+  "devDependencies": {
+    "eclaireur-internal-config": "workspace:^"
+  },
+  "peerDependencies": {
+    "rollup": "^2.63.0"
+  },
+  "prettier": "eclaireur-internal-config/prettier.json"
+}

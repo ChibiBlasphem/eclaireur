@@ -1,11 +1,3 @@
-import typescript from '@rollup/plugin-typescript';
-import externals from 'rollup-plugin-node-externals';
+const { createRollupConfig } = require('eclaireur-internal-rollup-config');
 
-export default {
-  input: './src/index.ts',
-  output: {
-    dir: 'dist',
-  },
-  plugins: [typescript(), externals()],
-  external: [/node_modules/],
-};
+module.exports = createRollupConfig();

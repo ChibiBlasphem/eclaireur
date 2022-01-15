@@ -1,11 +1,18 @@
 {
   "extends": "eclaireur-internal-tsconfig/nodejs.json",
   "compilerOptions": {
-    "rootDir": "./src",
     "baseUrl": "./src",
     "outDir": "./dist",
+    "paths": {
+      "eclaireur-core": ["../../core/src/index.ts"]
+    },
     "tsBuildInfoFile": "./dist/.tsbuildinfo"
   },
+  "references": [
+    {
+      "path": "../core/tsconfig.json"
+    }
+  ],
   "include": ["src"],
   "exclude": ["node_modules"]
 }

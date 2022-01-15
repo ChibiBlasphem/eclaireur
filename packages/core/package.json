@@ -8,18 +8,17 @@
     "test": "jest"
   },
   "dependencies": {
-    "glob-to-regexp": "^0.4.1",
-    "graphviz": "^0.0.9"
+    "glob-to-regexp": "^0.4.1"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.3.0",
     "@swc-node/jest": "^1.4.3",
     "@types/glob-to-regexp": "^0.4.1",
-    "@types/graphviz": "^0.0.34",
     "@types/jest": "^27.4.0",
     "@types/memory-fs": "^0.3.3",
-    "eclaireur-internal-config": "workspace:*",
-    "eclaireur-internal-tsconfig": "workspace:*",
+    "eclaireur-internal-config": "workspace:^",
+    "eclaireur-internal-rollup-config": "workspace:^",
+    "eclaireur-internal-tsconfig": "workspace:^",
     "jest": "^27.4.7",
     "memory-fs": "^0.5.0",
     "rollup": "^2.63.0",

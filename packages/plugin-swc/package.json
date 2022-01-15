@@ -13,8 +13,9 @@
   "devDependencies": {
     "@rollup/plugin-typescript": "^8.3.0",
     "eclaireur-core": "^0.0.0",
-    "eclaireur-internal-config": "workspace:*",
-    "eclaireur-internal-tsconfig": "workspace:*",
+    "eclaireur-internal-config": "workspace:^",
+    "eclaireur-internal-rollup-config": "workspace:^",
+    "eclaireur-internal-tsconfig": "workspace:^",
     "rollup": "^2.63.0",
     "rollup-plugin-node-externals": "^3.1.2",
     "typescript": "^4.5.4"

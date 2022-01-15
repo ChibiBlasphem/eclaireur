@@ -1,12 +1,12 @@
 {
   "extends": "eclaireur-internal-tsconfig/nodejs.json",
   "compilerOptions": {
-    "module": "commonjs",
     "baseUrl": "./src",
     "outDir": "./dist",
     "paths": {
       "eclaireur-core": ["../../core/src/index.ts"]
-    }
+    },
+    "tsBuildInfoFile": "./dist/.tsbuildinfo"
   },
   "references": [
     {

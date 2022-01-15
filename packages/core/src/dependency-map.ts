@@ -1,6 +1,7 @@
 import nodeFs from 'node:fs';
 import nodePath from 'node:path';
 import type { UserConfig } from './types/core';
+import type { DependencyMap, DependencyDetail } from './types/dependency-map';
 import { ErrorMessages, EclaireurError } from './utils/error';
 import { createPatternToRegexp, matchPattern, matchPatternInHashmap } from './utils/match-pattern';
 
@@ -10,13 +11,6 @@ export interface GenerateDependencyMapOptions {
   plugins?: UserConfig['plugins'];
   abstractFolders?: UserConfig['abstractFolders'];
 }
-
-export interface DependencyDetail {
-  fullpath: string;
-  isFolder: boolean;
-  dependencies: Set<string>;
-}
-export type DependencyMap = Map<string, DependencyDetail>;
 
 function shouldIncludeFile(filepath: string, include: RegExp[] | null, exclude: RegExp[]) {
   return (!include || matchPattern(filepath, include)) && !matchPattern(filepath, exclude);
