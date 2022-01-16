@@ -8,7 +8,7 @@
     "cytoscape": "3.2.20",
     "cytoscape-dagre": "2.2.2",
     "eclaireur-core": "workspace:^",
-    "eclaireur-plugin-swc": "workspace:^",
+    "eclaireur-extractor-swc": "workspace:^",
     "polka": "^0.5.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

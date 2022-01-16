@@ -1,6 +1,6 @@
 import type { FileSystem } from './filesystem';
-import type { EclaireurPlugin } from './plugin';
-import type { EclaireurRendererDescription } from './renderer';
+import type { EclaireurExtractorConfig } from './extractor';
+import type { EclaireurRendererConfig } from './renderer';
 
 export type FilepathPattern = string | RegExp;
 
@@ -8,8 +8,8 @@ export interface UserConfig {
   root?: string;
   entry: string;
   fileSystem?: FileSystem;
-  plugins?: EclaireurPlugin[];
-  renderers?: EclaireurRendererDescription[];
+  extractors?: EclaireurExtractorConfig[];
+  renderers?: EclaireurRendererConfig[];
   scope?: {
     maxDepth?: number | null;
     include?: FilepathPattern[] | null;

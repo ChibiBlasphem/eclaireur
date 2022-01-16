@@ -1,5 +1,5 @@
 {
-  "name": "eclaireur-plugin-swc",
+  "name": "eclaireur-extractor-swc",
   "version": "0.0.0",
   "packageManager": "yarn@3.1.1",
   "main": "./dist/index.js",

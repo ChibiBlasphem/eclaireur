@@ -8,7 +8,7 @@ import { createPatternToRegexp, matchPattern, matchPatternInHashmap } from './ut
 export interface GenerateDependencyMapOptions {
   fileSystem?: UserConfig['fileSystem'];
   scope?: UserConfig['scope'];
-  plugins?: UserConfig['plugins'];
+  extractors?: UserConfig['extractors'];
   abstractFolders?: UserConfig['abstractFolders'];
 }
 
@@ -21,7 +21,7 @@ export async function generateDependencyMap(
   root: string,
   {
     fileSystem = nodeFs,
-    plugins = [],
+    extractors = [],
     scope: { maxDepth = null, include = null, exclude = [] } = {},
     abstractFolders = [],
   }: GenerateDependencyMapOptions = {}
@@ -72,14 +72,16 @@ export async function generateDependencyMap(
       extension: nodePath.extname(filepath),
       contents: fileSystem.readFileSync(filepath, 'utf8'),
     };
-    const plugin = plugins.find((plugin) => plugin.checkValidity(fileInformations));
-    if (!plugin) {
+
+    const extractorConfig = extractors.find(({ test }) => !test || test.test(filepath));
+    if (!extractorConfig) {
       // TODO: Warn user that we bailed out because no plugin was found for this file
       return;
     }
 
-    const forwardPlugin = (): Promise<Set<string>> => Promise.resolve(new Set());
-    const imports = await plugin.extractImports(fileInformations, forwardPlugin, { fileSystem });
+    const { extractor } = extractorConfig;
+    const forwardExtractor = (): Promise<Set<string>> => Promise.resolve(new Set());
+    const imports = await extractor.extractImports(fileInformations, forwardExtractor, { fileSystem });
 
     let promises: Promise<void>[] = [];
     for (const importPath of imports) {

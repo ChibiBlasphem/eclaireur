@@ -1,7 +1,7 @@
 import nodePath from 'node:path';
 import MemoryFs from 'memory-fs';
 import { generateDependencyMap } from '../dependency-map';
-import type { EclaireurPlugin } from '../types';
+import type { EclaireurExtractor } from '../types';
 import { EclaireurError, ErrorMessages } from '../utils/error';
 
 type Tree = { [k: string]: string | Tree };
@@ -14,9 +14,8 @@ const scaffold = (tree: Tree) => {
   return fsData;
 };
 
-const mockPlugin: EclaireurPlugin = {
-  name: 'mock-plugin',
-  checkValidity: () => true,
+const mockExtractor: EclaireurExtractor = {
+  name: 'mock-extractor',
   extractImports: async ({ dirname, contents }) => {
     const imports = JSON.parse(contents);
     if (!Array.isArray(imports)) {
@@ -25,6 +24,7 @@ const mockPlugin: EclaireurPlugin = {
     return new Set(imports.map((i) => nodePath.resolve(dirname, i)));
   },
 };
+const extractors = [{ extractor: mockExtractor }];
 
 const mockFileSystem = new MemoryFs(
   scaffold({
@@ -45,7 +45,10 @@ const mockFileSystem = new MemoryFs(
 describe('generateDependencyMap', () => {
   it('Should follow dependency and build a hashmap from the entrypoint', async () => {
     await expect(
-      generateDependencyMap('/src/main.js', '/', { fileSystem: mockFileSystem, plugins: [mockPlugin] })
+      generateDependencyMap('/src/main.js', '/', {
+        fileSystem: mockFileSystem,
+        extractors,
+      })
     ).resolves.toEqual(
       new Map([
         [
@@ -63,7 +66,7 @@ describe('generateDependencyMap', () => {
     );
 
     await expect(
-      generateDependencyMap('/src/app/foo.js', '/', { fileSystem: mockFileSystem, plugins: [mockPlugin] })
+      generateDependencyMap('/src/app/foo.js', '/', { fileSystem: mockFileSystem, extractors })
     ).resolves.toEqual(
       new Map([
         ['src/app/foo.js', { fullpath: '/src/app/foo.js', isFolder: false, dependencies: new Set(['src/app/baz.js']) }],
@@ -80,7 +83,7 @@ describe('generateDependencyMap', () => {
     await expect(
       generateDependencyMap('/src/main.js', '/', {
         fileSystem: mockFileSystem,
-        plugins: [mockPlugin],
+        extractors,
         scope: { maxDepth: 1 },
       })
     ).resolves.toEqual(
@@ -99,7 +102,7 @@ describe('generateDependencyMap', () => {
     await expect(
       generateDependencyMap('/src/app/foo.js', '/', {
         fileSystem: mockFileSystem,
-        plugins: [mockPlugin],
+        extractors,
         scope: {
           include: ['./src/app/**'],
         },
@@ -116,7 +119,7 @@ describe('generateDependencyMap', () => {
     await expect(
       generateDependencyMap('/src/main.js', '/', {
         fileSystem: mockFileSystem,
-        plugins: [mockPlugin],
+        extractors,
         scope: {
           include: ['./src/**'],
           exclude: [/external/],
@@ -137,7 +140,7 @@ describe('generateDependencyMap', () => {
     await expect(
       generateDependencyMap('/src/main.js', '/', {
         fileSystem: mockFileSystem,
-        plugins: [mockPlugin],
+        extractors,
         scope: {
           include: ['./src/**'],
           exclude: [/app/],
@@ -152,7 +155,7 @@ describe('generateDependencyMap', () => {
     await expect(
       generateDependencyMap('/src/main.js', '/', {
         fileSystem: mockFileSystem,
-        plugins: [mockPlugin],
+        extractors,
         scope: {
           include: ['./src/app/**'],
         },
@@ -164,7 +167,7 @@ describe('generateDependencyMap', () => {
     await expect(
       generateDependencyMap('/src/main.js', '/', {
         fileSystem: mockFileSystem,
-        plugins: [mockPlugin],
+        extractors,
         abstractFolders: ['./src/app'],
       })
     ).resolves.toEqual(

@@ -2583,7 +2583,7 @@ __metadata:
     cytoscape: 3.2.20
     cytoscape-dagre: 2.2.2
     eclaireur-core: "workspace:^"
-    eclaireur-plugin-swc: "workspace:^"
+    eclaireur-extractor-swc: "workspace:^"
     parcel: ^2.1.1
     polka: ^0.5.2
     postcss: ^8.4.5
@@ -4282,6 +4282,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"eclaireur-extractor-swc@workspace:^, eclaireur-extractor-swc@workspace:packages/extractor-swc":
+  version: 0.0.0-use.local
+  resolution: "eclaireur-extractor-swc@workspace:packages/extractor-swc"
+  dependencies:
+    "@rollup/plugin-typescript": ^8.3.0
+    "@swc/core": ^1.2.126
+    eclaireur-core: ^0.0.0
+    eclaireur-internal-config: "workspace:^"
+    eclaireur-internal-rollup-config: "workspace:^"
+    eclaireur-internal-tsconfig: "workspace:^"
+    enhanced-resolve: ^5.8.3
+    rollup: ^2.63.0
+    rollup-plugin-node-externals: ^3.1.2
+    typescript: ^4.5.4
+  peerDependencies:
+    eclaireur-core: ^0.0.0
+  languageName: unknown
+  linkType: soft
+
 "eclaireur-internal-config@workspace:^, eclaireur-internal-config@workspace:internals/config":
   version: 0.0.0-use.local
   resolution: "eclaireur-internal-config@workspace:internals/config"
@@ -4319,25 +4338,6 @@ __metadata:
   dependencies:
     prettier: ^2.5.1
     turbo: ^1.0.28
-  languageName: unknown
-  linkType: soft
-
-"eclaireur-plugin-swc@workspace:^, eclaireur-plugin-swc@workspace:packages/plugin-swc":
-  version: 0.0.0-use.local
-  resolution: "eclaireur-plugin-swc@workspace:packages/plugin-swc"
-  dependencies:
-    "@rollup/plugin-typescript": ^8.3.0
-    "@swc/core": ^1.2.126
-    eclaireur-core: ^0.0.0
-    eclaireur-internal-config: "workspace:^"
-    eclaireur-internal-rollup-config: "workspace:^"
-    eclaireur-internal-tsconfig: "workspace:^"
-    enhanced-resolve: ^5.8.3
-    rollup: ^2.63.0
-    rollup-plugin-node-externals: ^3.1.2
-    typescript: ^4.5.4
-  peerDependencies:
-    eclaireur-core: ^0.0.0
   languageName: unknown
   linkType: soft
 

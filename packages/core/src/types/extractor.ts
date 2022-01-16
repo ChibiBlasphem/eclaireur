@@ -11,12 +11,16 @@ export interface FileInformations {
   contents: string;
 }
 
-export interface EclaireurPlugin {
+export interface EclaireurExtractor {
   name: string;
-  checkValidity: (fileInformations: FileInformations) => boolean;
   extractImports: (
     fileInformations: FileInformations,
-    forward: (filename: string, contents: string) => ReturnType<EclaireurPlugin['extractImports']>,
+    forward: (filename: string, contents: string) => ReturnType<EclaireurExtractor['extractImports']>,
     options: ExtractImportOptions
   ) => Promise<Set<string>>;
+}
+
+export interface EclaireurExtractorConfig {
+  test?: RegExp;
+  extractor: EclaireurExtractor;
 }

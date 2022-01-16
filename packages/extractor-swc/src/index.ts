@@ -1,4 +1,4 @@
-import type { EclaireurPlugin } from 'eclaireur-core';
+import type { EclaireurExtractor } from 'eclaireur-core';
 import { CallExpression, DEFAULT_EXTENSIONS, ImportDeclaration, TsType } from '@swc/core';
 import { parse } from '@swc/core';
 import { Visitor } from '@swc/core/Visitor';
@@ -6,7 +6,7 @@ import type { Resolver } from 'enhanced-resolve';
 import { CachedInputFileSystem, ResolverFactory } from 'enhanced-resolve';
 import { isBuiltinModule } from './isBuiltinModule';
 
-export interface SWCPluginOptions {
+export interface SWCExtractorOptions {
   extensions?: string[];
   aliases?: Record<string, string>;
 }
@@ -49,15 +49,14 @@ function resolveImport(resolver: Resolver, context: any, from: string, request: 
   });
 }
 
-export function swcPlugin({
+export const SwcExtractor = ({
   extensions = DEFAULT_EXTENSIONS as string[],
   aliases: aliasesHashmap = {},
-}: SWCPluginOptions = {}): EclaireurPlugin {
+}: SWCExtractorOptions = {}): EclaireurExtractor => {
   const aliasesArray = Object.entries(aliasesHashmap).map(([name, alias]) => ({ name, alias }));
 
   return {
-    name: 'swc-plugin',
-    checkValidity: (fileInformations) => ['.js', '.jsx', '.ts', '.tsx'].includes(fileInformations.extension),
+    name: 'swc-extractor',
     extractImports: async ({ dirname, contents }, _forward, { fileSystem }) => {
       const ast = await parse(contents, { syntax: 'typescript', tsx: true, decorators: true });
       const resolver = ResolverFactory.createResolver({
@@ -80,4 +79,4 @@ export function swcPlugin({
       return new Set(resolvedImports);
     },
   };
-}
+};

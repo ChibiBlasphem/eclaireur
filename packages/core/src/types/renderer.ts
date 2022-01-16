@@ -13,7 +13,7 @@ export type EclaireurRenderer<G, N, E, S> = {
 
 export type EclaireurRendererFunction<G, N, E, S> = (options: RendererOptions) => EclaireurRenderer<G, N, E, S>;
 
-export interface EclaireurRendererDescription {
+export interface EclaireurRendererConfig {
   renderer: EclaireurRendererFunction<any, any, any, any>;
   output: string;
 }

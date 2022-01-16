@@ -8,7 +8,7 @@ export async function start() {
   const {
     root = process.cwd(),
     entry,
-    plugins,
+    extractors,
     renderers = [],
     scope,
     abstractFolders,
@@ -17,7 +17,7 @@ export async function start() {
 
   // Generating dependency Map
   const dependencyMap = await generateDependencyMap(entryPoint, root, {
-    plugins,
+    extractors,
     scope,
     abstractFolders,
   });
