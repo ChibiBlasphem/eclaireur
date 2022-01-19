@@ -2075,15 +2075,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/graphviz@npm:^0.0.34":
-  version: 0.0.34
-  resolution: "@types/graphviz@npm:0.0.34"
-  dependencies:
-    "@types/node": "*"
-  checksum: 12e65016a711eee852c990d805b015b7301f6644629952f295a6420fe31ed98e20c527b5d7f6fc32fd888483014998f4559bcbbfbfb9eba7634a8cad49b792b5
-  languageName: node
-  linkType: hard
-
 "@types/http-proxy@npm:^1.17.5":
   version: 1.17.8
   resolution: "@types/http-proxy@npm:1.17.8"
@@ -3959,6 +3950,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"de-indent@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "de-indent@npm:1.0.2"
+  checksum: 8deacc0f4a397a4414a0fc4d0034d2b7782e7cb4eaf34943ea47754e08eccf309a0e71fa6f56cc48de429ede999a42d6b4bca761bf91683be0095422dbf24611
+  languageName: node
+  linkType: hard
+
 "debug@npm:2.6.9, debug@npm:^2.6.9":
   version: 2.6.9
   resolution: "debug@npm:2.6.9"
@@ -4301,6 +4299,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"eclaireur-extractor-vue2@workspace:packages/extractor-vue2":
+  version: 0.0.0-use.local
+  resolution: "eclaireur-extractor-vue2@workspace:packages/extractor-vue2"
+  dependencies:
+    "@rollup/plugin-typescript": ^8.3.0
+    eclaireur-core: ^0.0.0
+    eclaireur-internal-config: "workspace:^"
+    eclaireur-internal-rollup-config: "workspace:^"
+    eclaireur-internal-tsconfig: "workspace:^"
+    rollup: ^2.63.0
+    rollup-plugin-node-externals: ^3.1.2
+    typescript: ^4.5.4
+    vue-template-compiler: 2.6.14
+  peerDependencies:
+    eclaireur-core: ^0.0.0
+    vue-template-compiler: ^2
+  languageName: unknown
+  linkType: soft
+
 "eclaireur-internal-config@workspace:^, eclaireur-internal-config@workspace:internals/config":
   version: 0.0.0-use.local
   resolution: "eclaireur-internal-config@workspace:internals/config"
@@ -4345,12 +4362,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "eclaireur-renderer-dot@workspace:packages/renderer-dot"
   dependencies:
-    "@types/graphviz": ^0.0.34
     eclaireur-core: ^0.0.0
     eclaireur-internal-config: "workspace:^"
     eclaireur-internal-rollup-config: "workspace:^"
     eclaireur-internal-tsconfig: "workspace:^"
-    graphviz: ^0.0.9
     rollup: ^2.63.0
   peerDependencies:
     eclaireur-core: ^0.0.0
@@ -5637,15 +5652,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphviz@npm:^0.0.9":
-  version: 0.0.9
-  resolution: "graphviz@npm:0.0.9"
-  dependencies:
-    temp: ~0.4.0
-  checksum: fb414f89763d568646f2d899f9a2baa19e1cdf1b97db831f64f2b3f7322609ca1e4e43bcb3d2e3bfc992b9e0f657803559d7a98e289d5aa6dc549d578939d599
-  languageName: node
-  linkType: hard
-
 "har-schema@npm:^2.0.0":
   version: 2.0.0
   resolution: "har-schema@npm:2.0.0"
@@ -5750,6 +5756,15 @@ __metadata:
     inherits: ^2.0.3
     minimalistic-assert: ^1.0.1
   checksum: e350096e659c62422b85fa508e4b3669017311aa4c49b74f19f8e1bc7f3a54a584fdfd45326d4964d6011f2b2d882e38bea775a96046f2a61b7779a979629d8f
+  languageName: node
+  linkType: hard
+
+"he@npm:^1.1.0":
+  version: 1.2.0
+  resolution: "he@npm:1.2.0"
+  bin:
+    he: bin/he
+  checksum: 3d4d6babccccd79c5c5a3f929a68af33360d6445587d628087f39a965079d84f18ce9c3d3f917ee1e3978916fc833bb8b29377c3b403f919426f91bc6965e7a7
   languageName: node
   linkType: hard
 
@@ -10282,13 +10297,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"temp@npm:~0.4.0":
-  version: 0.4.0
-  resolution: "temp@npm:0.4.0"
-  checksum: 8b83f98833b7f6cd03a1f523d17f8b06fe687cbdfc5654ae41edacdf640e71f1057c3cf2534ac44e265834c1af6270d9a0b9baeee6b86ccb2ef379e43dbc0d0a
-  languageName: node
-  linkType: hard
-
 "term-size@npm:^2.2.1":
   version: 2.2.1
   resolution: "term-size@npm:2.2.1"
@@ -10885,6 +10893,16 @@ __metadata:
   version: 1.1.2
   resolution: "vm-browserify@npm:1.1.2"
   checksum: 10a1c50aab54ff8b4c9042c15fc64aefccce8d2fb90c0640403242db0ee7fb269f9b102bdb69cfb435d7ef3180d61fd4fb004a043a12709abaf9056cfd7e039d
+  languageName: node
+  linkType: hard
+
+"vue-template-compiler@npm:2.6.14":
+  version: 2.6.14
+  resolution: "vue-template-compiler@npm:2.6.14"
+  dependencies:
+    de-indent: ^1.0.2
+    he: ^1.1.0
+  checksum: 0d03f804ac97e26629c78219929596cfd98f522e1f13b16dd42f13e3fff09b85fb8252ef3486e9d62ca7993f576386f587e760df0506230fa87141fdac8275ea
   languageName: node
   linkType: hard
 

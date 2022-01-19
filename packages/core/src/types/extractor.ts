@@ -5,17 +5,20 @@ export interface ExtractImportOptions {
 }
 
 export interface FileInformations {
+  path: string;
   filename: string;
   dirname: string;
   extension: string;
   contents: string;
 }
 
+export type ExtractorForwardFunction = (fileInformations: FileInformations) => Promise<Set<string>>;
+
 export interface EclaireurExtractor {
   name: string;
   extractImports: (
     fileInformations: FileInformations,
-    forward: (filename: string, contents: string) => ReturnType<EclaireurExtractor['extractImports']>,
+    forward: ExtractorForwardFunction,
     options: ExtractImportOptions
   ) => Promise<Set<string>>;
 }

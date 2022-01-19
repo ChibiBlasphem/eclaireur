@@ -2,6 +2,8 @@ import nodeFs from 'node:fs';
 import nodePath from 'node:path';
 import type { UserConfig } from './types/core';
 import type { DependencyMap, DependencyDetail } from './types/dependency-map';
+import type { EclaireurExtractorConfig, ExtractorForwardFunction } from './types/extractor';
+import type { FileSystem } from './types/filesystem';
 import { ErrorMessages, EclaireurError } from './utils/error';
 import { createPatternToRegexp, matchPattern, matchPatternInHashmap } from './utils/match-pattern';
 
@@ -14,6 +16,24 @@ export interface GenerateDependencyMapOptions {
 
 function shouldIncludeFile(filepath: string, include: RegExp[] | null, exclude: RegExp[]) {
   return (!include || matchPattern(filepath, include)) && !matchPattern(filepath, exclude);
+}
+
+function createForwardFunction(
+  extractorsConfigs: EclaireurExtractorConfig[],
+  { fileSystem }: { fileSystem: FileSystem }
+): ExtractorForwardFunction {
+  const forwardExtractor: ExtractorForwardFunction = async (fileInformations): Promise<Set<string>> => {
+    const extractorConfig = extractorsConfigs.find(({ test }) => !test || test.test(fileInformations.path));
+    if (!extractorConfig) {
+      // TODO: Warn user no extractor was found when forwarding
+      return new Set();
+    }
+
+    const { extractor } = extractorConfig;
+    return extractor.extractImports(fileInformations, forwardExtractor, { fileSystem });
+  };
+
+  return forwardExtractor;
 }
 
 export async function generateDependencyMap(
@@ -34,6 +54,7 @@ export async function generateDependencyMap(
       return [nodePath.resolve(root, folder), patternToRegexp(nodePath.join(folder, '**'))];
     })
   );
+  const forwardExtractor = createForwardFunction(extractors, { fileSystem });
 
   if (!shouldIncludeFile(entryPoint, includedFoldersRegexp, excludedFoldersRegexp)) {
     throw new EclaireurError(ErrorMessages.ENTRYPOINT_NOT_INCLUDED);
@@ -67,6 +88,7 @@ export async function generateDependencyMap(
     }
 
     const fileInformations = {
+      path: filepath,
       filename: nodePath.basename(filepath),
       dirname: nodePath.dirname(filepath),
       extension: nodePath.extname(filepath),
@@ -80,7 +102,6 @@ export async function generateDependencyMap(
     }
 
     const { extractor } = extractorConfig;
-    const forwardExtractor = (): Promise<Set<string>> => Promise.resolve(new Set());
     const imports = await extractor.extractImports(fileInformations, forwardExtractor, { fileSystem });
 
     let promises: Promise<void>[] = [];

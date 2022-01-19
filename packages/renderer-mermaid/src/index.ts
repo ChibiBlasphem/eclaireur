@@ -8,8 +8,6 @@ export interface MermaidNode {
 }
 
 export interface MermaidEdge {
-  id: string;
-  label: string | undefined;
   source: MermaidNode['id'];
   target: MermaidNode['id'];
 }
@@ -40,8 +38,8 @@ function createNode(id: string, label: string = id, style: MermaidStyle = {}): M
   return { id, label, style };
 }
 
-function createEdge(id: string, source: MermaidNode['id'], target: MermaidNode['id'], label: string = id): MermaidEdge {
-  return { id, label, source, target };
+function createEdge(source: MermaidNode['id'], target: MermaidNode['id']): MermaidEdge {
+  return { source, target };
 }
 
 function createGraph(id: string, label?: string): MermaidGraph {
@@ -51,9 +49,11 @@ function createGraph(id: string, label?: string): MermaidGraph {
 function addNode(graph: MermaidGraph, node: MermaidNode) {
   graph.nodes.push(node);
 }
+
 function addEdge(graph: MermaidGraph, edge: MermaidEdge) {
   graph.edges.push(edge);
 }
+
 function addSubgraph(graph: MermaidGraph, subgraph: MermaidGraph) {
   graph.subgraphs.push(subgraph);
 }
@@ -114,8 +114,8 @@ export const MermaidRenderer: EclaireurRendererFunction<MermaidGraph, MermaidNod
       addNode(parent, node);
       return node;
     },
-    createEdge: (parent, id, source, target) => {
-      const edge = createEdge(id, source, target);
+    createEdge: (parent, source, target) => {
+      const edge = createEdge(source, target);
       addEdge(parent, edge);
       return edge;
     },

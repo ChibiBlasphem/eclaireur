@@ -1,15 +1,7 @@
 import nodePath from 'node:path';
 import type { DependencyMap } from './types/dependency-map';
 import type { Entries } from './types/entries';
-import type { ClusterDescription, UnifiedStyles, StyleTransformers } from './types/graph';
-
-export interface GenerateGraphOptions<G, N, E, S> {
-  createGraph: (id: string) => G;
-  createCluster: (parent: G, id: string, label: string) => G;
-  createNode: (parent: G, id: string, label: string, style: S) => N;
-  createEdge: (parent: G, id: string, source: string, target: string) => E;
-  styleTransformers: StyleTransformers<S>;
-}
+import type { ClusterDescription, GenerateGraphOptions, UnifiedStyles, StyleTransformers } from './types/graph';
 
 const NODE_COLORS: Record<string, string> = {
   js: '#f0db4f',
@@ -147,21 +139,23 @@ function flattenClusterTree<G>(
   return clusters;
 }
 
-export function generateGraph<G, N, E, S>(
+export function generateGraph<G, N extends { id: string }, E, S>(
   dependencyMap: DependencyMap,
   { createGraph, createCluster, createNode, createEdge, styleTransformers }: GenerateGraphOptions<G, N, E, S>
 ): G {
-  const rootGraph = createGraph('eclaireur dependency tree');
+  const rootGraph = createGraph('eclaireur dependency tree', 'Eclaireur Dependency Tree');
   const clusterTree = generateClusterTree(dependencyMap);
   const clusters = flattenClusterTree(rootGraph, clusterTree, createCluster);
 
-  for (const [filepath, { isFolder, dependencies }] of dependencyMap) {
+  const nodesToCluster: Record<string, G> = {};
+
+  for (const [filepath, { isFolder }] of dependencyMap) {
     const relativeDirname = nodePath.dirname(filepath) + '/';
     const nodeLabel = nodePath.basename(filepath);
     const color = NODE_COLORS[nodePath.extname(filepath).slice(1)];
     const nodeGraph = clusters[relativeDirname];
 
-    createNode(
+    const node = createNode(
       nodeGraph,
       filepath,
       nodeLabel,
@@ -176,8 +170,17 @@ export function generateGraph<G, N, E, S>(
       )
     );
 
+    nodesToCluster[node.id] = nodeGraph;
+  }
+
+  for (const [filepath, { dependencies }] of dependencyMap) {
+    const sourceCluster = nodesToCluster[filepath];
+
     for (const dependency of dependencies) {
-      createEdge(rootGraph, `${filepath}_${dependency}`, filepath, dependency);
+      const targetCluster = nodesToCluster[dependency];
+      const parent = sourceCluster === targetCluster ? sourceCluster : rootGraph;
+
+      createEdge(parent, filepath, dependency);
     }
   }
 

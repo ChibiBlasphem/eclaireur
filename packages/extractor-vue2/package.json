@@ -1,5 +1,5 @@
 {
-  "name": "eclaireur-renderer-dot",
+  "name": "eclaireur-extractor-vue2",
   "version": "0.0.0",
   "packageManager": "yarn@3.1.1",
   "main": "./dist/index.js",
@@ -7,14 +7,19 @@
     "build": "rollup -c rollup.config.js"
   },
   "devDependencies": {
+    "@rollup/plugin-typescript": "^8.3.0",
     "eclaireur-core": "^0.0.0",
     "eclaireur-internal-config": "workspace:^",
     "eclaireur-internal-rollup-config": "workspace:^",
     "eclaireur-internal-tsconfig": "workspace:^",
-    "rollup": "^2.63.0"
+    "rollup": "^2.63.0",
+    "rollup-plugin-node-externals": "^3.1.2",
+    "typescript": "^4.5.4",
+    "vue-template-compiler": "2.6.14"
   },
   "peerDependencies": {
-    "eclaireur-core": "^0.0.0"
+    "eclaireur-core": "^0.0.0",
+    "vue-template-compiler": "^2"
   },
   "prettier": "eclaireur-internal-config/prettier.json"
 }
