@@ -6,6 +6,7 @@ import type { ClusterDescription, GenerateGraphOptions, UnifiedStyles, StyleTran
 const NODE_COLORS: Record<string, string> = {
   js: '#f0db4f',
   ts: '#007acc',
+  css: '#7963ad',
   scss: '#cd6799',
   vue: '#41b883',
   jsx: '#61dbfb',
